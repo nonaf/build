@@ -1,0 +1,19 @@
+{
+  "name": "@nonaf/build",
+  "version": "1.0.0",
+  "description": "Build script for nonaf",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nonaf/build.git"
+  },
+  "author": "nonaf",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nonaf/build/issues"
+  },
+  "homepage": "https://github.com/nonaf/build#readme"
+}

@@ -77,7 +77,7 @@ function parseTemplate(text) {
    var start = 0;
    while (result.start > -1) {
       list.push(result);
-      styles += result.style;
+      styles += result.style + '\n';
       result = getStyle(text, result.end);
    }
    if (list.length > 0) {

@@ -1,3 +1,5 @@
+var eol = require('os').EOL;
+
 function skipChars(text, index, ch1, ch2, ch3) {
    ch1 = ch1 || ' ';
    ch2 = ch2 || '\t';
@@ -77,7 +79,7 @@ function parseTemplate(text) {
    var start = 0;
    while (result.start > -1) {
       list.push(result);
-      styles += result.style + '\n';
+      styles += result.style.trim() + eol;
       result = getStyle(text, result.end);
    }
    if (list.length > 0) {
@@ -89,7 +91,7 @@ function parseTemplate(text) {
    html += text.slice(start);
    return {
       styles: styles,
-      html: html.trim() + '\n'
+      html: html.trim() + eol
    }
 }
 

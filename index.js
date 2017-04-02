@@ -29,8 +29,9 @@ function getStyle(text, index) {
    var style = '';
    var scope = '';
    var result;
-   var endIndex;
-   index = text.indexOf(styleStart, index);
+   var endIndex = -1;
+   var startIndex = text.indexOf(styleStart, index);
+   index = startIndex;
    if (index >= 0) {
       index += styleStart.length;
       index = skipChars(text, index);
@@ -56,30 +57,40 @@ function getStyle(text, index) {
          throw {error: 'Bad <style> block'};
       }
       style = text.substring(index, endIndex);
-      index = endIndex + styleEnd.length;
+      endIndex += styleEnd.length;
    }
    if (scope) {
       style = scope + '{' + style + '}';
    }
    return {
-      index: index,
+      start: startIndex,
+      end: endIndex,
       style: style
    };
 }
 
-function getStyles(text) {
-   var index = 0;
-   var result = getStyle(text, index);
+function parseTemplate(text) {
+   var list = [];
+   var result = getStyle(text, 0);
    var styles = '';
-   while (result.index > index) {
-      index = result.index;
+   var html = '';
+   var start = 0;
+   while (result.start > -1) {
+      list.push(result);
       styles += result.style;
-      result = getStyle(text, index);
+      result = getStyle(text, result.end);
    }
+   if (list.length > 0) {
+      list.forEach(function (chunk) {
+         html += text.slice(start, chunk.start);
+         start = chunk.end;
+      });
+   }
+   html += text.slice(start);
    return {
       styles: styles,
-      index: index
+      html: html.trim() + '\n'
    }
 }
 
-module.exports = getStyles;
+module.exports = parseTemplate;
